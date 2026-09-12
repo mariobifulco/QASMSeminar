@@ -1,0 +1,24 @@
+/*-- scss:defaults --*/
+
+$body-bg: #f8f8f8;
+$body-color: #041b2d;
+$link-color: #041b2d;
+$font-family-sans-serif: "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+.dept-badge {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  border: 2px solid #041b2d;
+  border-radius: 12px;
+  padding: 8px 16px;
+  font-weight: bold;
+  font-size: 0.6em;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.presenter {
+  text-decoration: underline;
+  font-weight: bold;
+}

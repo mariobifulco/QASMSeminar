@@ -1,0 +1,6 @@
+qasm-seminar_files
+*.html
+.venv
+/.quarto/
+**/*.quarto_ipynb
+.DS_Store
