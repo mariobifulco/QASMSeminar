@@ -1,0 +1,162 @@
+/* @theme unito */
+@import 'default';
+
+/* UniTo primary palette, identity manual pp. 4 and 17:
+   https://www.unito.it/sites/default/files/unito_manuale_identita_semplificato.pdf */
+section {
+  --unito-red: #ea0029;
+  --unito-gray: #54565a;
+  background: #fff;
+  color: #292a2d;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 29px;
+  line-height: 1.4;
+  padding: 160px 72px 78px;
+  justify-content: center;
+  border-top: 7px solid var(--unito-red);
+}
+
+h1, h2, h3 {
+  font-family: Tahoma, Arial, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.12;
+}
+
+h1 {
+  color: var(--unito-red);
+  font-size: 51px;
+  margin: 0 0 32px;
+}
+
+h2, h3 {
+  color: var(--unito-gray);
+  font-size: 31px;
+  margin: 0 0 20px;
+}
+
+p, ul, ol { margin: 0 0 22px; }
+li { margin: 9px 0; }
+li::marker { color: var(--unito-red); }
+strong { color: var(--unito-red); }
+a { color: var(--unito-red); text-decoration-thickness: 1px; }
+del { color: #8b8c90; }
+
+header {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 154px;
+  box-sizing: border-box;
+  padding: 12px 72px 14px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  background: #fff;
+  color: var(--unito-gray);
+  font-size: 16px;
+  letter-spacing: 0.015em;
+}
+
+/* Original combined mark extracted unchanged from the departmental manual,
+   p. 4. Construction ratios and clear space: pp. 7–9.
+   At this scale the UniTo seal is about 60px wide. Its 30px clear space
+   includes the asset's transparent margins and the header/content padding. */
+header img { width: 240px; height: auto; flex-shrink: 0; object-fit: contain; }
+footer {
+  left: 72px;
+  bottom: 26px;
+  color: var(--unito-gray);
+  font-size: 15px;
+}
+section::after {
+  right: 72px;
+  bottom: 25px;
+  color: var(--unito-red);
+  font-size: 18px;
+  font-weight: 700;
+}
+
+blockquote {
+  margin: 0 0 26px;
+  padding: 5px 0 5px 24px;
+  border-left: 5px solid var(--unito-red);
+  color: var(--unito-gray);
+  font-size: 31px;
+}
+blockquote::before, blockquote::after { content: none; }
+blockquote p { margin: 0; }
+
+pre {
+  background: #f4f4f5;
+  border: 0;
+  border-left: 4px solid var(--unito-red);
+  border-radius: 0;
+  padding: 22px 26px;
+  margin: 0 0 24px;
+  font-size: 25px;
+  line-height: 1.45;
+}
+code { font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace; }
+p code, li code { color: var(--unito-red); background: #f4f4f5; }
+pre code { color: #292a2d; }
+
+/* The supplied teaching images retain their aspect ratio. */
+section > p > img {
+  display: block;
+  max-width: 100%;
+  max-height: 300px;
+  object-fit: contain;
+  margin: 12px auto 0;
+}
+.columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: start;
+}
+.columns > div { min-width: 0; }
+.columns img {
+  display: block;
+  max-width: 100%;
+  max-height: 360px;
+  object-fit: contain;
+  margin: 0 auto;
+}
+.columns.visual { grid-template-columns: 1.4fr 1fr; align-items: center; }
+.columns pre { font-size: 23px; }
+.columns p:last-child { margin-bottom: 0; }
+.math-block { margin: 18px 0 26px; }
+
+section.cover h1 {
+  font-size: 94px;
+  max-width: 950px;
+  margin-bottom: 38px;
+}
+section.cover h2 { font-size: 32px; letter-spacing: 0; }
+section.cover p { color: var(--unito-gray); font-size: 25px; }
+
+section.divider {
+  background: var(--unito-red);
+  color: #fff;
+}
+section.divider h1 {
+  color: #fff;
+  font-size: 78px;
+  max-width: 1040px;
+  margin: 0;
+}
+section.divider footer, section.divider::after { color: #fff; }
+section.divider p { color: #fff; font-size: 30px; }
+section.divider strong { color: #fff; }
+
+section.compact { font-size: 26px; }
+section.compact pre { font-size: 22px; line-height: 1.32; padding: 18px 24px; }
+section.compact h1 { margin-bottom: 24px; }
+section.gate .columns { align-items: center; }
+section.gate .columns img { width: 330px; max-height: 300px; image-rendering: auto; }
+section.solution pre { font-size: 22px; line-height: 1.2; padding: 10px 24px; }
+
+section.closing h1 { font-size: 88px; margin-bottom: 36px; }
+section.closing p { font-size: 24px; }
+section.closing .columns { grid-template-columns: 1.6fr 1fr; align-items: center; }
+section.closing .columns img { width: 300px; height: 300px; }

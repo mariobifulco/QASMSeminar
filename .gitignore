@@ -1,6 +1,10 @@
-qasm-seminar_files
 *.html
-.venv
-/.quarto/
-**/*.quarto_ipynb
+*.pdf
+_site/
 .DS_Store
+
+# Generated files left by earlier Quarto builds.
+qasm-seminar_files/
+.venv/
+.quarto/
+**/*.quarto_ipynb
