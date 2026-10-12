@@ -123,6 +123,18 @@ section > p > img {
   margin: 0 auto;
 }
 .columns.visual { grid-template-columns: 1.4fr 1fr; align-items: center; }
+.columns.visual.image-left { grid-template-columns: 1fr 1.4fr; }
+.columns.coin-comparison {
+  grid-template-columns: 1fr 1.5fr 1fr;
+  gap: 28px;
+  align-items: center;
+}
+.coin-comparison > div:last-child { text-align: right; }
+section.coin .analogy {
+  margin-top: 32px;
+  font-size: 24px;
+  color: var(--unito-gray);
+}
 .columns pre { font-size: 23px; }
 .columns p:last-child { margin-bottom: 0; }
 .math-block { margin: 18px 0 26px; }

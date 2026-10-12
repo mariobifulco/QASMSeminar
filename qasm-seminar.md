@@ -8,7 +8,7 @@ title: Quantum computing 101
 author: Mario Bifulco
 description: An introduction to quantum computing and OpenQASM
 header: '<img src="img/unito-informatica-combinato.png" alt="Università di Torino e Dipartimento di Informatica">'
-footer: 'Mario Bifulco · Quantum computing 101'
+footer: 'Mario Bifulco - Quantum computing 101'
 ---
 
 <!-- _class: cover -->
@@ -43,16 +43,36 @@ Research focus:
 
 # Starting question
 
-~~Marvel~~ What if...We could manipulate more than 0 and 1?
+<div class="columns visual">
+<div>
+
+~~Marvel~~ What if… we could compute with superpositions of 0 and 1?
+
+</div>
+<div>
+
+![The Watcher from Marvel's What If...?](img/whatcher.avif)
+
+</div>
+</div>
 
 ---
 
 # Classical vs. Quantum
 
-- Classical computer: general-purpose
-- Quantum computer: specialized workloads
+<div class="columns visual image-left">
+<div>
 
-![width:1000 height:300 Quantum computing and high performance computing](img/qchpc.png)
+![Quantum computing and high performance computing](img/qchpc.png)
+
+</div>
+<div>
+
+- Classical computers handle general-purpose workloads
+- Quantum processors can accelerate specific problems
+
+</div>
+</div>
 
 ---
 
@@ -61,27 +81,36 @@ Research focus:
 <div class="columns visual">
 <div>
 
-- We can solve some problems BLAZINGLY FAST
-- Cryptography
-- New way of computing
+- Some quantum algorithms offer large speedups over known classical methods
+- Shor's algorithm could break RSA on a sufficiently large, fault-tolerant quantum computer
 
 </div>
 <div>
 
-![Shor's algorithm](img/shor.png)
+## Integer factorization
+
+| Algorithm | Scaling |
+| --- | --- |
+| Classical* | Subexponential |
+| Shor | Polynomial |
+
+$f(\text{input bit length})$
 
 </div>
 </div>
+
+<!-- Source: https://quantum.cloud.ibm.com/docs/en/tutorials/shors-algorithm -->
+<!-- Complexity comparison: Shor, https://arxiv.org/abs/quant-ph/9508027, section 5 -->
 
 ---
 
-# Are we F***ed?!
+# Are we F***ed?
 
-> QC : Today = CC : '60s-'70s
+> Quantum hardware is still at an early stage
 
-* Hardware is noisy
-* Qubits are hard to use
-* Error correction costs a lot
+* Hardware is noisy and difficult to scale
+* Large algorithms need error correction
+* Error correction requires many physical qubits per logical qubit
 
 ---
 
@@ -101,7 +130,7 @@ Research focus:
 ## Classical Assembly
 
 - Memory
-- Logical gates
+- Arithmetic and logic instructions
 - Deterministic results
 
 </div>
@@ -111,7 +140,7 @@ Research focus:
 
 - Qubits
 - Quantum gates
-- Probabilistic results
+- Probabilistic measurement outcomes
 
 </div>
 </div>
@@ -136,6 +165,7 @@ Non-destructive
 
 </div>
 </div>
+<br>
 
 ```text
 bit = 0  //  I can copy it, read it and modify it
@@ -152,9 +182,9 @@ bit = 0  //  I can copy it, read it and modify it
 
 $$|\psi\rangle = \alpha|0\rangle + \beta|1\rangle$$
 
-- $\alpha$ and $\beta$ are "probabilities" (actually amplitudes)
-- Before measurement the qubit is in a quantum state
-- After measurement, we obtain a classical bit, and the quantum state collapses to the measured state
+- $\alpha$ and $\beta$ are complex amplitudes, with $|\alpha|^2 + |\beta|^2 = 1$
+- Measurement gives $0$ with probability $|\alpha|^2$ and $1$ with probability $|\beta|^2$
+- In this basis, the state then becomes $|0\rangle$ or $|1\rangle$
 
 </div>
 <div>
@@ -164,11 +194,15 @@ $$|\psi\rangle = \alpha|0\rangle + \beta|1\rangle$$
 </div>
 </div>
 
+<!-- Source: https://quantum.cloud.ibm.com/learning/en/courses/use-a-qc-today/quantum-mechanics-basics -->
+
 ---
+
+<!-- _class: coin -->
 
 # Qubit == Coin?
 
-<div class="columns">
+<div class="columns coin-comparison">
 <div>
 
 ## Bit
@@ -180,16 +214,23 @@ Stationary coin
 </div>
 <div>
 
+![Spinning coin from Inception](img/inception.gif)
+
+</div>
+<div>
+
 ## Qubit
 
 Spinning coin
 
-It could be either H or T
+**Heads** or **Tails** when measured
 
 </div>
 </div>
 
-![width:500 height:211 Spinning coin from Inception](img/inception.gif)
+<p class="analogy">A useful analogy for measurement. Quantum amplitudes can also interfere.</p>
+
+<!-- Source: https://quantum.cloud.ibm.com/learning/en/modules/quantum-mechanics/superposition-with-qiskit -->
 
 ---
 
@@ -198,9 +239,9 @@ It could be either H or T
 <div class="columns visual">
 <div>
 
-* The outcome depends on $\alpha$ and $\beta$
-* After measurement, the original superposition is gone
-* We repeat the algorithm many times to estimate probabilities
+* Measurement probabilities depend on $|\alpha|^2$ and $|\beta|^2$
+* Measurement in the 0/1 basis removes the original superposition in that basis
+* Each run is a **shot**. We prepare and run the circuit again to estimate probabilities
 
 </div>
 <div>
@@ -216,9 +257,9 @@ It could be either H or T
 
 A quantum state can represent a superposition of many basis states, but:
 
-- Each measurement gives us just ONE classical outcome
+- Measuring the register gives us just ONE classical bitstring per shot
 - A good quantum algorithm increases the probability of a good solution
-- We use quantum stuff that seems like magic
+- Interference can amplify useful outcomes and suppress others
 
 ---
 
@@ -270,20 +311,13 @@ QASM:       x, h, cx, ...
 
 # Reversibility
 
-```text
-NOT(0) = 1, NOT(1) = 0
+NOT is reversible: `NOT(0) = 1, NOT(1) = 0`
 
-This is good, reversible
-
----
-
-AND(0, 0) = 0
-AND(0, 1) = 0
-
-This is bad, not reversible
-```
+AND alone loses information: `AND(0, 0) = 0, AND(0, 1) = 0`
 
 > We can't uniquely recover the inputs from the output
+
+Quantum gates are reversible. Measurement is a separate operation.
 
 ---
 
@@ -291,15 +325,26 @@ This is bad, not reversible
 
 # Ancilla
 
-We need to compute without losing information
+<div class="columns visual">
+<div>
+
+An **ancilla** is an auxiliary qubit, often initialized to $|0\rangle$.
+
+For classical inputs, a Toffoli gate stores AND in the ancilla while preserving both inputs:
 
 ```text
-(a, b, 0)  ──►  (a, b, a AND b)
+(a, b, 0)
+    becomes
+(a, b, a AND b)
 ```
 
-An auxiliary qubit is called an "ancilla qubit"
+</div>
+<div>
 
-![width:650 height:260 Reversible quantum gates](img/gates.webp)
+![Examples of reversible gates, including the Toffoli gate](img/gates.webp)
+
+</div>
+</div>
 
 ---
 
@@ -333,17 +378,17 @@ An auxiliary qubit is called an "ancilla qubit"
 OPENQASM 2.0;
 include "qelib1.inc";
 
-qreg q[2];   // qubit
-creg c[2];   // classical bit
+qreg q[2];   // two qubits, initially |0>
+creg c[2];   // two classical bits
 ```
 
 - Low-level quantum instructions
-- Quantum program -> sequence of quantum gates and operations
+- A program describes gates, measurements and classical control
 
 </div>
 <div>
 
-![IBM Quantum Composer](img/composer.png)
+[![QR code: open IBM Quantum Composer](img/composer.png)](https://quantum.cloud.ibm.com/composer)
 
 </div>
 </div>
@@ -384,7 +429,11 @@ $$|0\rangle \leftrightarrow |1\rangle$$
 h q[0];
 ```
 
-Create superposition
+Starting from $|0\rangle$:
+
+$$H|0\rangle = \frac{|0\rangle + |1\rangle}{\sqrt{2}}$$
+
+Measurement gives 0 or 1 with equal probability.
 
 </div>
 <div>
@@ -393,6 +442,8 @@ Create superposition
 
 </div>
 </div>
+
+<!-- Source: https://quantum.cloud.ibm.com/learning/en/courses/use-a-qc-today/quantum-mechanics-basics -->
 
 ---
 
@@ -407,14 +458,14 @@ Create superposition
 cx q[0], q[1];
 ```
 
-Multi-qubit operation
-
-We can think of a CNOT as:
+For basis states:
 
 ```python
 if control == 1:
-  target = not target
+    target = not target
 ```
+
+It acts coherently on superpositions.
 
 </div>
 <div>
@@ -424,20 +475,32 @@ if control == 1:
 </div>
 </div>
 
+<!-- Source: https://quantum.cloud.ibm.com/learning/en/courses/use-a-qc-today/quantum-mechanics-basics -->
+
 ---
 
-# H + CX: entanglement!
+<!-- _class: compact -->
+
+# H + CX: entanglement
+
+Starting from $|00\rangle$:
 
 ```qasm
 h  q[0];
 cx q[0], q[1];
 ```
 
-By running and measuring this circuit many times, we will obtain either **00** or **11**, but never **01** or **10**
+$$|\psi\rangle = \frac{|00\rangle + |11\rangle}{\sqrt{2}}$$
+
+In an ideal circuit, measurement gives **00** or **11**, each with probability 50%. Hardware noise can introduce other outcomes.
+
+<!-- Source: https://quantum.cloud.ibm.com/learning/en/courses/use-a-qc-today/quantum-mechanics-basics -->
 
 ---
 
 # Entanglement (pt. 2)
+
+Starting again from $|00\rangle$:
 
 ```qasm
 x q[1];
@@ -447,7 +510,7 @@ cx q[0], q[1];
 
 What outcomes can we get from this circuit?
 
-* Answer: **01** or **10**
+* Answer: **01** or **10**, each with probability 50% in an ideal circuit
 
 ---
 
@@ -457,19 +520,36 @@ What outcomes can we get from this circuit?
 
 ---
 
+<!-- _class: compact -->
+
 # True random number generator
 
-[Did you know that randomness on a classical computer is usually pseudorandom?](https://www.cloudflare.com/learning/ssl/lava-lamp-encryption/)
+<div class="columns">
+<div>
 
 ```qasm
+OPENQASM 2.0;
+include "qelib1.inc";
+
 qreg q[1];
 creg c[1];
-
 h q[0];
 measure q -> c;
 ```
 
-<https://quantum.cloud.ibm.com/composer>
+</div>
+<div>
+
+Classical software often uses [pseudorandom generators](https://www.cloudflare.com/learning/ssl/lava-lamp-encryption/). Measurement provides quantum randomness.
+
+In an ideal circuit, each shot gives 0 or 1 with probability 50%.
+
+[Try it in IBM Quantum Composer](https://quantum.cloud.ibm.com/composer)
+
+</div>
+</div>
+
+<!-- Source: https://quantum.cloud.ibm.com/learning/en/courses/use-a-qc-today/quantum-mechanics-basics -->
 
 ---
 
@@ -480,9 +560,9 @@ measure q -> c;
 <div class="columns visual">
 <div>
 
-Write a quantum algorithm that generates **many** bitstrings with exactly two 1s and two 0s
+Write a quantum circuit that generates **different 4-bit strings**, each with exactly two 1s and two 0s.
 
-Possible outcomes:
+Valid bitstrings:
 
 ```text
 0011   0101   0110
@@ -492,7 +572,7 @@ Possible outcomes:
 </div>
 <div>
 
-![Try yourself on IBM composer](img/composer.png)
+[![QR code: try it in IBM Quantum Composer](img/composer.png)](https://quantum.cloud.ibm.com/composer)
 
 </div>
 </div>
@@ -503,28 +583,47 @@ Possible outcomes:
 
 # Possible solution
 
+<div class="columns">
+<div>
+
 ```qasm
 OPENQASM 2.0;
 include "qelib1.inc";
 
 qreg q[4];
 creg c[4];
-
 h q[0];
 x q[1];
+cx q[0], q[1];
+
 h q[2];
 x q[3];
-cx q[0], q[1];
 cx q[2], q[3];
-
 measure q -> c;
 ```
+
+</div>
+<div>
+
+Each pair produces **01** or **10**, so every result has two 1s and two 0s.
+
+This circuit produces:
+
+```text
+0101   0110
+1001   1010
+```
+
+Each has probability 25% in an ideal circuit. This solution covers four of the six valid bitstrings.
+
+</div>
+</div>
 
 ---
 
 # Takeaways
 
-1. A QPU is an accelerator, not a universal processor
+1. A QPU works alongside classical processors as an accelerator for specific problems
 2. OpenQASM is a low-level language for describing quantum programs/circuits
 3. We use gates to transform quantum states, then we obtain classical outcomes through measurement
 
@@ -537,7 +636,7 @@ measure q -> c;
 <div class="columns visual">
 <div>
 
-# Thanks!
+# Thanks
 
 Slides
 
