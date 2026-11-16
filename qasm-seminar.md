@@ -94,8 +94,6 @@ Research focus:
 | Classical* | Subexponential |
 | Shor | Polynomial |
 
-$f(\text{input bit length})$
-
 </div>
 </div>
 
