@@ -23,6 +23,23 @@ PhD student @ University of Turin
 
 ---
 
+<!-- _class: portrait -->
+
+<div class="columns visual">
+<div>
+
+# Io sono Mario<br>e **NON** sono il vostro professore.
+
+</div>
+<div>
+
+![Chimicazza](img/chimicazza.jpg)
+
+</div>
+</div>
+
+---
+
 # $whoami
 
 Mario Bifulco - PhD student @ University of Turin
@@ -35,9 +52,42 @@ Research focus:
 
 ---
 
+# Why quantum computing?
+
+<div class="meme-lines">
+
+- **6–7** qubits?
+- **Let it cook.** Preferably at a few millikelvin.
+- **Aura farming.** Just say “quantum” in a meeting.
+
+</div>
+
+> What can a quantum computer actually do better?
+
+---
+
 <!-- _class: divider -->
 
 # What is a<br>Quantum Computer?
+
+---
+
+<!-- _class: fridge -->
+
+<div class="columns visual">
+<div>
+
+# Basically,<br>a fridge.
+
+Superconducting quantum chips sit inside a dilution refrigerator, just above absolute zero.
+
+</div>
+<div>
+
+![A household refrigerator](img/fridge.jpg)
+
+</div>
+</div>
 
 ---
 
@@ -196,6 +246,42 @@ $$|\psi\rangle = \alpha|0\rangle + \beta|1\rangle$$
 
 ---
 
+<!-- _class: compact bloch -->
+
+# How a qubit evolves
+
+<div class="columns visual">
+<div>
+
+On the **Bloch sphere**, the red dot represents the state of a pure qubit.
+
+Starting at $|0\rangle$, a rotation around $y$ through $180^\circ$ moves the dot to $|1\rangle$.
+
+</div>
+<div>
+
+<picture>
+  <source media="print, (prefers-reduced-motion: reduce)" srcset="img/bloch-rotation.png">
+  <img src="img/bloch-rotation.webp" alt="Bloch vector rotating from the north pole |0⟩ to the south pole |1⟩ along the highlighted arc">
+</picture>
+
+</div>
+</div>
+
+---
+
+<!-- _class: compact -->
+
+# Can we undo a quantum gate?
+
+An isolated quantum system evolves **unitarily**. An ideal gate preserves the information in the state, so its inverse restores the input.
+
+$$|0\rangle \;\xrightarrow{\;R_y(\pi/2)\;}\; |+\rangle \;\xrightarrow{\;R_y(-\pi/2)\;}\; |0\rangle$$
+
+The middle state $|+\rangle = (|0\rangle + |1\rangle)/\sqrt{2}$ gives **0** or **1** when measured in the 0/1 basis. The outcome alone can’t recover the original state.
+
+---
+
 <!-- _class: coin -->
 
 # Qubit == Coin?
@@ -278,12 +364,12 @@ sw   t2, 0(sp)
 </div>
 <div>
 
-## QASM
+## OpenQASM 3.0
 
 ```qasm
 h  q[0];
 cx q[0], q[1];
-measure q -> c;
+c = measure q;
 ```
 
 </div>
@@ -296,26 +382,12 @@ measure q -> c;
 At this level, we mostly work with qubits and gates
 
 ```text
-RISC-V:     add a0, a1, a2
-QASM:       x, h, cx, ...
+RISC-V:       add a0, a1, a2
+OpenQASM:     x, h, cx, ...
 ```
 
 - Quantum gates transform the state of one or more qubits
 - We often have to build higher-level operations from basic gates
-
----
-
-<!-- _class: compact -->
-
-# Reversibility
-
-NOT is reversible: `NOT(0) = 1, NOT(1) = 0`
-
-AND alone loses information: `AND(0, 0) = 0, AND(0, 1) = 0`
-
-> We can't uniquely recover the inputs from the output
-
-Quantum gates are reversible. Measurement is a separate operation.
 
 ---
 
@@ -328,7 +400,7 @@ Quantum gates are reversible. Measurement is a separate operation.
 
 An **ancilla** is an auxiliary qubit, often initialized to $|0\rangle$.
 
-For classical inputs, a Toffoli gate stores AND in the ancilla while preserving both inputs:
+AND alone can send different inputs to the same output. A **Toffoli** gate can store AND in the ancilla and preserve both inputs:
 
 ```text
 (a, b, 0)
@@ -361,23 +433,46 @@ For classical inputs, a Toffoli gate stores AND in the ancilla while preserving 
 
 <!-- _class: divider -->
 
+# Are you getting bored?
+
+---
+
+<!-- _class: interlude -->
+
+<div class="columns visual">
+<div>
+
+# Now that I have your attention…
+
+</div>
+<div>
+
+![A woman in a swimsuit on a beach, with her face outside the frame](img/beach.jpg)
+
+</div>
+</div>
+
+---
+
+<!-- _class: divider -->
+
 # It's time to<br>write some code
 
 ---
 
 <!-- _class: compact -->
 
-# OpenQASM
+# OpenQASM 3.0
 
 <div class="columns visual">
 <div>
 
 ```qasm
-OPENQASM 2.0;
-include "qelib1.inc";
+OPENQASM 3.0;
+include "stdgates.inc";
 
-qreg q[2];   // two qubits, initially |0>
-creg c[2];   // two classical bits
+qubit[2] q;   // two qubits, initially |0>
+bit[2] c;     // two classical bits
 ```
 
 - Low-level quantum instructions
@@ -387,6 +482,37 @@ creg c[2];   // two classical bits
 <div>
 
 [![QR code: open IBM Quantum Composer](img/composer.png)](https://quantum.cloud.ibm.com/composer)
+
+</div>
+</div>
+
+---
+
+<!-- _class: compact -->
+
+# What’s new in OpenQASM 3.0?
+
+<div class="columns">
+<div>
+
+```qasm
+OPENQASM 3.0;
+include "stdgates.inc";
+qubit[4] q;
+
+for int i in [0:3] {
+  h q[i];
+}
+```
+
+</div>
+<div>
+
+- **Loops** with `for` and `while`
+- **Richer classical control** with typed variables and `if` / `else` blocks that can use measurement results
+- **Explicit timing** with durations and `delay`
+
+[OpenQASM 3.0 specification](https://openqasm.com/versions/3.0/)
 
 </div>
 </div>
@@ -441,8 +567,6 @@ Measurement gives 0 or 1 with equal probability.
 </div>
 </div>
 
-<!-- Source: https://quantum.cloud.ibm.com/learning/en/courses/use-a-qc-today/quantum-mechanics-basics -->
-
 ---
 
 <!-- _class: gate -->
@@ -473,8 +597,6 @@ It acts coherently on superpositions.
 </div>
 </div>
 
-<!-- Source: https://quantum.cloud.ibm.com/learning/en/courses/use-a-qc-today/quantum-mechanics-basics -->
-
 ---
 
 <!-- _class: compact -->
@@ -491,8 +613,6 @@ cx q[0], q[1];
 $$|\psi\rangle = \frac{|00\rangle + |11\rangle}{\sqrt{2}}$$
 
 In an ideal circuit, measurement gives **00** or **11**, each with probability 50%. Hardware noise can introduce other outcomes.
-
-<!-- Source: https://quantum.cloud.ibm.com/learning/en/courses/use-a-qc-today/quantum-mechanics-basics -->
 
 ---
 
@@ -512,6 +632,20 @@ What outcomes can we get from this circuit?
 
 ---
 
+<!-- _class: compact -->
+
+# QEvolution · Live demo
+
+**Examples → Bell pair → Run circuit → Next**
+
+1. After **H**, watch the first qubit move into superposition.
+2. After **CX**, watch the link light up and the two local Bloch vectors shrink.
+3. Before **Measure**, predict the outcomes. Can the first two wires disagree?
+
+[QEvolution on GitHub](https://github.com/mariobifulco/QEvolution)
+
+---
+
 <!-- _class: divider -->
 
 # Exercises
@@ -526,13 +660,13 @@ What outcomes can we get from this circuit?
 <div>
 
 ```qasm
-OPENQASM 2.0;
-include "qelib1.inc";
+OPENQASM 3.0;
+include "stdgates.inc";
 
-qreg q[1];
-creg c[1];
-h q[0];
-measure q -> c;
+qubit q;
+bit c;
+h q;
+c = measure q;
 ```
 
 </div>
@@ -546,8 +680,6 @@ In an ideal circuit, each shot gives 0 or 1 with probability 50%.
 
 </div>
 </div>
-
-<!-- Source: https://quantum.cloud.ibm.com/learning/en/courses/use-a-qc-today/quantum-mechanics-basics -->
 
 ---
 
@@ -585,11 +717,11 @@ Valid bitstrings:
 <div>
 
 ```qasm
-OPENQASM 2.0;
-include "qelib1.inc";
+OPENQASM 3.0;
+include "stdgates.inc";
 
-qreg q[4];
-creg c[4];
+qubit[4] q;
+bit[4] c;
 h q[0];
 x q[1];
 cx q[0], q[1];
@@ -597,7 +729,7 @@ cx q[0], q[1];
 h q[2];
 x q[3];
 cx q[2], q[3];
-measure q -> c;
+c = measure q;
 ```
 
 </div>

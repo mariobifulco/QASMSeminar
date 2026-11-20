@@ -139,6 +139,24 @@ section.coin .analogy {
 .columns p:last-child { margin-bottom: 0; }
 .math-block { margin: 18px 0 26px; }
 
+section.portrait h1, section.fridge h1, section.interlude h1 { font-size: 67px; }
+section.portrait h1 strong {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.11em;
+}
+.photo-credit {
+  margin: 8px 0 0;
+  color: var(--unito-gray);
+  font-size: 14px;
+  text-align: center;
+}
+.photo-credit a { color: inherit; }
+.meme-lines li { margin: 15px 0; }
+section.bloch .columns { grid-template-columns: 1fr 1.15fr; gap: 36px; }
+section.bloch picture { display: block; }
+section.bloch .columns img { width: 100%; }
+
 section.cover h1 {
   font-size: 94px;
   max-width: 950px;

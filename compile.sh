@@ -1,1 +1,1 @@
-marp qasm-seminar.md --theme unito.css --html --pdf --allow-local-files -o qasm-seminar.pdf
+marp qasm-seminar.md --theme unito.css --allow-local-files --html --pdf -o qasm-seminar.pdf
